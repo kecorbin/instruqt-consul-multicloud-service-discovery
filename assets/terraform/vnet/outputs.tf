@@ -6,28 +6,12 @@ output "resource_group_location" {
   value = azurerm_resource_group.instruqt.location
 }
 
-output "shared_svcs_vnet" {
-  value = module.shared-svcs-network.vnet_id
+output "vnet" {
+  value = module.vnet.vnet_id
 }
 
-output "shared_svcs_subnets" {
-  value = module.shared-svcs-network.vnet_subnets
-}
-
-output "legacy_vnet" {
-  value = module.legacy-network.vnet_id
-}
-
-output "legacy_subnets" {
-  value = module.legacy-network.vnet_subnets
-}
-
-output "aks_vnet" {
-  value = module.aks-network.vnet_id
-}
-
-output "aks_subnets" {
-  value = module.aks-network.vnet_subnets
+output "vnet_subnets" {
+  value = module.vnet.vnet_subnets
 }
 
 output "bastion_ip" {
