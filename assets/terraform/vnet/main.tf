@@ -81,7 +81,7 @@ resource "azurerm_virtual_machine" "bastion" {
     disable_password_authentication = true
     ssh_keys {
       path     = "/home/azure-user/.ssh/authorized_keys"
-      key_data = var.ssh_public_key
+      key_data = file("/root/.ssh/id_rsa.pub")
     }
   }
 
