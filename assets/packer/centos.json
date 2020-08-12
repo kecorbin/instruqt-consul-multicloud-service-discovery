@@ -23,20 +23,23 @@
       "associate_public_ip_address": true,
       "source_ami_filter": {
         "filters": {
-          "product-code": "aw0evgkw8e5c1q413zgy5pjce",
           "virtualization-type": "hvm",
-          "name": "*CentOS Linux 7 x86_64 HVM EBS ENA*",
+          "name": "amzn2-ami-hvm*",
           "root-device-type": "ebs"
         },
-        "owners": ["679593333241"],
+        "owners": [
+          "amazon"
+        ],
         "most_recent": true
       },
-      "ssh_username": "centos",
+      "ssh_username": "ec2-user",
       "ssh_timeout": "5m",
       "ami_virtualization_type": "hvm",
       "ami_name": "is-aws-immutable-consul-centos7-{{isotime \"2006-01-02-03-04\"}}",
       "ami_description": "{{ user `owner` }} - IS AWS Consul - CentOS 7",
-      "ami_regions": ["us-east-1", "us-east-2", "us-west-2"],
+      "ami_regions": [
+        "us-east-1"
+      ],
       "tags": {
         "Name": "IS AWS Consul v{{ user `consul_version` }}",
         "System": "is-immutable-consul",
@@ -46,12 +49,9 @@
         "OS-Version": "7",
         "Release": "{{ user `release` }}",
         "Owner": "{{ user `owner` }}"
-      },
-      "launch_block_device_mappings": [{
-        "device_name": "/dev/sda1",
-        "delete_on_termination": true
-      },
-      {
+      }
+    },
+    {
         "type": "azure-arm",
     
         "client_id": "{{ user `arm_client_id` }}",
@@ -59,8 +59,8 @@
         "tenant_id": "{{ user `arm_tenant_id` }}",
         "subscription_id": "{{ user `arm_subscription_id` }}",
     
-        "managed_image_resource_group_name": "kcorbin-images",
-        "managed_image_name": "centos",
+        "managed_image_resource_group_name": "{{ user `resource_group_name` }}",
+        "managed_image_name": "centos-consul",
     
         "os_type": "Linux",
         "image_publisher": "OpenLogic",
@@ -71,8 +71,7 @@
         "vm_size": "Standard_A2_v2"        
 
       }    
-    ]
-    }
+
   ],
   "provisioners": [
     {

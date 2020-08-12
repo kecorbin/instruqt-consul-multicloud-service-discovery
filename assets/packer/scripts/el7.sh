@@ -19,4 +19,3 @@ curl --silent -O https://bootstrap.pypa.io/get-pip.py
 sudo python get-pip.py
 sudo pip install awscli
 
-echo 'output: { all: "| tee -a /var/log/cloud-init-output.log" }' | sudo tee -a /etc/cloud/cloud.cfg.d/05_logging.cfg
