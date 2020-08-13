@@ -48,7 +48,7 @@ resource "aws_autoscaling_group" "frontend" {
 }
 
 resource "aws_security_group" "frontend" {
-  name   = "${var.prefix}-frontend"
+  name   = "frontend-sq"
   vpc_id = data.terraform_remote_state.vpc.outputs.vpc
 
   ingress {
