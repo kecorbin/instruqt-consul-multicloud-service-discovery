@@ -1,7 +1,7 @@
 resource "aws_security_group" "consul_ssh" {
   name        = "consul-ssh"
   description = "Allow ssh traffic"
-  vpc_id      = data.terraform_remote_state.vpc.outputs.shared_svcs_vpc
+  vpc_id      = data.terraform_remote_state.vpc.outputs.vpc
 
   ingress {
     from_port   = 22
@@ -14,7 +14,7 @@ resource "aws_security_group" "consul_ssh" {
 resource "aws_security_group" "consul_lb" {
   name        = "consul-lb"
   description = "Allow lb traffic"
-  vpc_id      = data.terraform_remote_state.vpc.outputs.shared_svcs_vpc
+  vpc_id      = data.terraform_remote_state.vpc.outputs.vpc
 
   ingress {
     from_port       = 8500
@@ -36,7 +36,7 @@ resource "aws_security_group" "consul_eks" {
 
   name        = "consul-eks-${each.key}"
   description = "Allow gossip traffic"
-  vpc_id      = data.terraform_remote_state.vpc.outputs.shared_svcs_vpc
+  vpc_id      = data.terraform_remote_state.vpc.outputs.vpc
 
   ingress {
     from_port   = 8300

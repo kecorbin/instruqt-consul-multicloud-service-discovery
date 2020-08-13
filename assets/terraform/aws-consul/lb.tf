@@ -2,7 +2,7 @@ resource "aws_lb" "consul" {
   name               = "consul-lb"
   internal           = false
   load_balancer_type = "network"
-  subnets            = data.terraform_remote_state.vpc.outputs.shared_svcs_public_subnets
+  subnets            = data.terraform_remote_state.vpc.outputs.public_subnets
 }
 
 resource "aws_lb_listener" "http" {

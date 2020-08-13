@@ -24,8 +24,8 @@ module "consul" {
 
   key_name    = "instruqt"
   name_prefix = "instruqt"
-  vpc_id      = data.terraform_remote_state.vpc.outputs.shared_svcs_vpc
-  subnets     = data.terraform_remote_state.vpc.outputs.shared_svcs_private_subnets
+  vpc_id      = data.terraform_remote_state.vpc.outputs.vpc
+  subnets     = data.terraform_remote_state.vpc.outputs.private_subnets
 
   region             = "us-east-1"
   availability_zones = "us-east-1a,us-east-1b,us-east-1c"
