@@ -22,7 +22,7 @@ resource "aws_launch_configuration" "frontend" {
 
 resource "aws_autoscaling_group" "frontend" {
   name                 = "frontend-asg"
-  launch_configuration = "${aws_launch_configuration.nginx.name}"
+  launch_configuration = "${aws_launch_configuration.frontend.name}"
   desired_capacity     = 1
   min_size             = 1
   max_size             = 3
@@ -49,7 +49,7 @@ resource "aws_autoscaling_group" "frontend" {
 
 resource "aws_security_group" "frontend" {
   name   = "${var.prefix}-frontend"
-  vpc_id = data.terraform_remote_state.vpc.vpc
+  vpc_id = data.terraform_remote_state.vpc.outputs.vpc
 
   ingress {
     from_port   = 22
