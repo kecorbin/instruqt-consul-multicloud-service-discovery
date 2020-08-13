@@ -11,7 +11,7 @@ resource "aws_launch_configuration" "frontend" {
 
   security_groups = ["${aws_security_group.frontend.id}"]
   key_name        = "instruqt"
-  user_data       = "${file("../scripts/frontend.sh")}"
+  user_data       = "${file("./scripts/frontend.sh")}"
 
   iam_instance_profile = "${aws_iam_instance_profile.frontend.name}"
 
