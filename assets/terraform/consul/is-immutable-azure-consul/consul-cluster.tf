@@ -1,14 +1,3 @@
-resource "azurerm_resource_group" "consul" {
-  name     = "${random_id.environment_name.hex}-consul-cluster"
-  location = var.region
-}
-
-resource "azurerm_user_assigned_identity" "consul_server_iam" {
-  name                = "${random_id.environment_name.hex}-consul"
-  resource_group_name = azurerm_resource_group.consul.name
-  location            = var.region
-}
-
 resource "azurerm_role_assignment" "consul_reader" {
   scope                = azurerm_resource_group.consul.id
   role_definition_name = "Reader"
@@ -20,7 +9,7 @@ data "template_file" "install_hashitools_consul" {
 
   vars = {
     image_id               = data.azurerm_image.hashitools.id
-    resource_group         = azurerm_resource_group.consul.name
+    resource_group         = var.resource_group_name
     vmss_name              = local.vmss_name
     subscription_id        = data.azurerm_client_config.current.subscription_id
     environment_name       = random_id.environment_name.hex
@@ -45,7 +34,7 @@ data "template_file" "install_hashitools_consul" {
 resource "azurerm_virtual_machine_scale_set" "consul_cluster" {
   name                = local.vmss_name
   location            = var.region
-  resource_group_name = azurerm_resource_group.consul.name
+  resource_group_name = var.resource_group_name
 
   upgrade_policy_mode  = "Manual"
   automatic_os_upgrade = false
@@ -171,5 +160,5 @@ locals {
 resource "azurerm_application_security_group" "consul_servers" {
   location            = var.region
   name                = "${random_id.environment_name.hex}-consul-servers"
-  resource_group_name = azurerm_resource_group.consul.name
+  resource_group_name = var.resource_group_name
 }

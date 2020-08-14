@@ -35,11 +35,11 @@ resource "aws_lb" "vault" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = ["${aws_security_group.vault_lb.id}"]
-  subnets            = data.terraform_remote_state.vpc.outputs.pubic_subnets
+  subnets            = data.terraform_remote_state.vpc.outputs.public_subnets
 }
 
 resource "aws_lb_listener" "vault" {
-  load_balancer_arn = "${aws_lb.vault.arn}"
+  load_balancer_arn = aws_lb.vault.arn
   port              = "80"
   protocol          = "HTTP"
 

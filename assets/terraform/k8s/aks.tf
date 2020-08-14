@@ -11,7 +11,7 @@ data "terraform_remote_state" "vnet" {
   backend = "local"
 
   config = {
-    path = "${var.remote_state}/vnet/terraform.tfstate"
+    path = "${var.remote_state}/networking/terraform.tfstate"
   }
 }
 

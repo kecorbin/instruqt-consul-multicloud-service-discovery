@@ -47,7 +47,7 @@ variable "ttl" {
 variable "image_prefix" {
   type        = string
   description = "Prefix of the VM image name (From Packer) to launch in each VMSS"
-  default     = "is-azure-immutable-vault-"
+  default     = "centos-consul"
 }
 
 variable "image_resource_group" {
@@ -111,4 +111,9 @@ variable "enable_connect" {
   type        = bool
   description = "Whether Consul Connect should be enabled on the cluster"
   default     = false
+}
+
+variable "resource_group_name" {
+  type = string
+  default = "consul-server-rg"
 }

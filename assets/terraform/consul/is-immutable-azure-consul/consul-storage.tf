@@ -4,7 +4,7 @@
 
 resource "azurerm_storage_account" "cluster_data" {
   name                      = replace(random_id.environment_name.hex, "-", "")
-  resource_group_name       = azurerm_resource_group.consul.name
+  resource_group_name       = var.resource_group_name
   location                  = var.region
   account_kind              = "StorageV2"
   account_tier              = "Standard"
