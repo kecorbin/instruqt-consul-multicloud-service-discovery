@@ -1,9 +1,14 @@
-data "azurerm_resource_group" "example" {
+data "azurerm_resource_group" "rg" {
   name = var.resource_group_name
 }
 
-resource "azurerm_role_assignment" "consul_reader" {
-  scope                = data.azurerm_resource_group.example.id
+resource "azurerm_user_assigned_identity" "consul_server_iam" {
+  name                = "${random_id.environment_name.hex}-consul"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = var.region
+}
+resource "azurerm_role_assignment" "rg" {
+  scope                = data.azurerm_resource_group.rg.id
   role_definition_name = "Reader"
   principal_id         = azurerm_user_assigned_identity.consul_server_iam.principal_id
 }
