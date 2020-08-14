@@ -21,3 +21,8 @@ variable "network_segments" {
   type        = map
   default     = {}
 }
+
+variable "resource_group_name" {
+  type = string
+  default = "consul-server-rg"
+}
