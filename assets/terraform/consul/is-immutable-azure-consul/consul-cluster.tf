@@ -4,7 +4,7 @@ data "azurerm_resource_group" "rg" {
 
 resource "azurerm_user_assigned_identity" "consul_server_iam" {
   name                = "${random_id.environment_name.hex}-consul"
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = data.azurerm_resource_group.rg.name
   location            = var.region
 }
 resource "azurerm_role_assignment" "rg" {
@@ -18,7 +18,7 @@ data "template_file" "install_hashitools_consul" {
 
   vars = {
     image_id               = data.azurerm_image.hashitools.id
-    resource_group         = var.resource_group_name
+    resource_group         = data.azurerm_resource_group.rg.name
     vmss_name              = local.vmss_name
     subscription_id        = data.azurerm_client_config.current.subscription_id
     environment_name       = random_id.environment_name.hex
