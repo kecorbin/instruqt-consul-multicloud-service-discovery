@@ -1,0 +1,23 @@
+provider "azurerm" {
+  version = "=2.13.0"
+  features {}
+}
+
+data "terraform_remote_state" "vnet" {
+  backend = "local"
+
+  config = {
+    path = "/root/terraform/vnet/terraform.tfstate"
+  }
+}
+
+module "consul-azure" {
+  source = "./is-immutable-azure-consul"
+  region = "East US"
+  subnet_id = data.terraform_remote_state.vnet.outputs.vnet_subnets[0]
+  ssh_public_key = file("/root/.ssh/id_rsa.pub")
+  owner = "instruqt@hashicorp.com"
+  ttl   = "-1"
+  image_resource_group = data.terraform_remote_state.vnet.outputs.resource_group_name
+  image_prefix = "centos-consul"
+}

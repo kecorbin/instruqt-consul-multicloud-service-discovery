@@ -84,33 +84,49 @@ sudo chmod 640 /etc/consul-template/consul-template-config.hcl
 
 
 cat << EOF > /etc/consul.d/consul.hcl
-datacenter = "dc1"
-data_dir = "/opt/consul"
-ui = true
+datacenter          = "us-east-1"
+data_dir            = "/opt/consul/data"
+advertise_addr      = "${local_ipv4}"
+client_addr         = "0.0.0.0"
+log_level           = "INFO"
+
+# AWS cloud join
+retry_join          = ["provider=aws tag_key=Environment-Name tag_value=instruqt-bc87a97f-consul"]
+
+# Max connections for the HTTP API
+limits {
+  http_max_conns_per_client = 128
+}
+
+
+acl {
+  enabled        = true
+  default_policy = "deny"
+  enable_token_persistence = true
+  tokens {
+    master = "51d51330-94cb-2ef5-76ee-c1623c53c532"
+    agent  = "37340c04-743f-757b-7f3c-4967bbaaa596"
+  }
+}
 EOF
 
-cat << EOF > /etc/consul.d/client.hcl
-advertise_addr = "${local_ipv4}"
-retry_join = ["provider=aws tag_key=Env tag_value=consul"]
+cat << EOF > /etc/consul.d/nginx.json
+{
+  "service": {
+    "name": "frontend",
+    "port": 80,
+    "checks": [
+      {
+        "id": "nginx",
+        "name": "nginx TCP Check",
+        "tcp": "localhost:80",
+        "interval": "10s",
+        "timeout": "1s"
+      }
+    ]
+  }
+}
 EOF
-
-# cat << EOF > /etc/consul.d/nginx.json
-# {
-#   "service": {
-#     "name": "nginx",
-#     "port": 80,
-#     "checks": [
-#       {
-#         "id": "nginx",
-#         "name": "nginx TCP Check",
-#         "tcp": "localhost:80",
-#         "interval": "10s",
-#         "timeout": "1s"
-#       }
-#     ]
-#   }
-# }
-# EOF
 
 
 # create consul template for nginx config
@@ -190,55 +206,6 @@ sudo docker run -d \
   --volume=/var/run/docker.sock:/tmp/docker.sock \
   gliderlabs/registrator:latest \
   consul://localhost:8500
-
-# install our simple webpage
-cat << EOF > /home/ubuntu/index.html
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Hello, world!</title>
-  </head>
-  <body>
-    <div class="jumbotron">
-      <h1 class="display-4">Hello, World!</h1>
-      <p class="lead">Zero Touch Application Delivery with F5 BIG-IP, Terraform, and Consul</p>
-      <hr class="my-4">
-    </div>
-
-    <table style="width:50%">
-      <tr>
-        <td>Web Server</td>
-        <td>$HOSTNAME</td>
-      </tr>
-      <tr>
-        <td>API Server</td>
-        <td><div id="servername"></div></td>
-      </tr>
-      <tr>
-        <td>Status Message</td>
-        <td><div id="status"></div></td>
-      </tr>
-    </table>
-    <script>
-      async function check_api() {
-        const response = await fetch('/api/');
-        const payload = await response.json();
-        document.getElementById("servername").innerText = payload.server
-        document.getElementById("status").innerText = payload.status
-      }
-    setInterval(check_api, 1000)
-    </script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </body>
-</html>
-<html>
-
-EOF
 
 #Run nginx web instances
 cat << EOF > /home/ubuntu/docker-compose.yml

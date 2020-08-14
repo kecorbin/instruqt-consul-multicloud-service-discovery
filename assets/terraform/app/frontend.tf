@@ -1,11 +1,11 @@
 resource "aws_iam_instance_profile" "frontend" {
   name = "frontend_instance_profile"
-  role = "${aws_iam_role.demo.name}"
+  role = aws_iam_role.demo.name
 }
 
 resource "aws_launch_configuration" "frontend" {
   name_prefix                 = "frontend-"
-  image_id                    = "${data.aws_ami.ubuntu.id}"
+  image_id                    = data.aws_ami.ubuntu.id
   instance_type               = "t2.micro"
   associate_public_ip_address = true
 
