@@ -1,5 +1,9 @@
+data "azurerm_resource_group" "example" {
+  name = var.resource_group_name
+}
+
 resource "azurerm_role_assignment" "consul_reader" {
-  scope                = azurerm_resource_group.consul.id
+  scope                = data.azurerm_resource_group.example.id
   role_definition_name = "Reader"
   principal_id         = azurerm_user_assigned_identity.consul_server_iam.principal_id
 }
