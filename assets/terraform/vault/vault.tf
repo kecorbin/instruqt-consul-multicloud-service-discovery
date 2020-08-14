@@ -46,7 +46,7 @@ resource "aws_instance" "vault" {
   ami                         = "${data.aws_ami.ubuntu.id}"
   key_name                    = "instruqt"
   vpc_security_group_ids      = ["${aws_security_group.vault.id}"]
-  subnet_id                   = "${data.terraform_remote_state.vpc.outputs.shared_svcs_private_subnets[0]}"
+  subnet_id                   = "${data.terraform_remote_state.vpc.outputs.private_subnets[0]}"
   associate_public_ip_address = false
   user_data                   = file("${path.module}/scripts/vault.sh")
 

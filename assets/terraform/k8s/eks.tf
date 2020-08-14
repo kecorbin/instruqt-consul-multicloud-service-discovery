@@ -28,7 +28,7 @@ module "frontend" {
   cluster_name                         = "frontend"
   cluster_version                      = "1.16"
   subnets                              = flatten([data.terraform_remote_state.vpc.outputs.private_subnets])
-  vpc_id                               = data.terraform_remote_state.vpc.outputs.frontend_vpc
+  vpc_id                               = data.terraform_remote_state.vpc.outputs.vpc
   worker_additional_security_group_ids = [aws_security_group.frontend-eks-consul.id]
 
   manage_aws_auth  = true
@@ -46,7 +46,7 @@ module "frontend" {
 resource "aws_security_group" "frontend-eks-consul" {
   name        = "consul-frontend-eks-gossip"
   description = "consul-eks-gossip"
-  vpc_id      = data.terraform_remote_state.vpc.outputs.frontend_vpc
+  vpc_id      = data.terraform_remote_state.vpc.outputs.vpc
 
   ingress {
     from_port   = 20000
