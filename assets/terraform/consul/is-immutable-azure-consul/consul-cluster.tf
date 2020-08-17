@@ -25,7 +25,6 @@ data "template_file" "install_hashitools_consul" {
     datacenter             = replace(var.region, " ", "-")
     bootstrap_expect       = var.redundancy_zones ? length(var.availability_zones) : var.consul_nodes
     total_nodes            = var.consul_nodes
-    gossip_key             = random_id.consul_gossip_encryption_key.b64_std
     master_token           = random_uuid.consul_master_token.result
     agent_server_token     = random_uuid.consul_agent_server_token.result
     snapshot_token         = random_uuid.consul_snapshot_token.result
@@ -33,6 +32,11 @@ data "template_file" "install_hashitools_consul" {
     redundancy_zones       = var.redundancy_zones
     bootstrap              = var.bootstrap
     enable_connect         = var.enable_connect
+    gossip_key             = var.gossip_key
+    consul_ca_cert         = var.consul_tls_config.ca_cert
+    consul_cert            = var.consul_tls_config.cert
+    consul_key             = var.consul_tls_config.key
+
   }
 }
 

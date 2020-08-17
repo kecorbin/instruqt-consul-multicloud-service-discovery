@@ -20,4 +20,7 @@ module "consul-azure" {
   ttl   = "-1"
   image_resource_group = data.terraform_remote_state.vnet.outputs.resource_group_name
   image_prefix = "centos-consul"
+  resource_group_name = var.resource_group_name
+  gossip_key = module.consul.gossip_key
+  consul_tls_config = module.consul_tls.consul_tls_config
 }
