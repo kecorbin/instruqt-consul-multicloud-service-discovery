@@ -6,6 +6,10 @@ output "private_route_table_ids" {
   value = module.vpc.private_route_table_ids
 }
 
+output "public_route_table_ids" {
+  value = module.vpc.public_route_table_ids
+}
+
 output "private_subnets" {
   value = module.vpc.private_subnets
 }
@@ -34,3 +38,6 @@ output "bastion_ip" {
   value = azurerm_public_ip.bastion.ip_address
 }
 
+output "aws_bastion_ip" {
+  value = aws_instance.bastion-shared-svcs.public_ip
+}

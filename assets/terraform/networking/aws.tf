@@ -16,6 +16,7 @@ module "vpc" {
 
   enable_nat_gateway = true
   single_nat_gateway = true
+  enable_vpn_gateway = true
 
   private_subnet_tags = { "Tier" : "private" }
   public_subnet_tags  = { "Tier" : "public" }
@@ -50,6 +51,13 @@ resource "aws_security_group" "bastion-shared-svcs" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+  
   egress {
     from_port   = 0
     to_port     = 0

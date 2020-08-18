@@ -81,7 +81,7 @@ resource "azurerm_virtual_machine" "bastion" {
     disable_password_authentication = true
     ssh_keys {
       path     = "/home/azure-user/.ssh/authorized_keys"
-      key_data = file("/root/.ssh/id_rsa.pub")
+      key_data = file("~/.ssh/id_rsa.pub")
     }
   }
 
@@ -107,6 +107,17 @@ resource "azurerm_network_security_group" "bastion" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+  security_rule {
+    name                       = "allow-10nets"
+    priority                   = 101
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "10.0.0.0/8"
+    destination_address_prefix = "*"
+  }  
 }
 
 resource "azurerm_network_interface_security_group_association" "bastion" {
