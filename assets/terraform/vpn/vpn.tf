@@ -2,7 +2,7 @@
 // https://github.com/terraform-providers/terraform-provider-azurerm/issues/764
 data "azurerm_public_ip" "gateway" {
   name                = "${azurerm_virtual_network_gateway.aws.name}_public_ip"
-  resource_group_name = azurerm_resource_group.instruqt.name
+  resource_group_name = data.terraform_remote_state.networking.outputs.resource_group_name
 }
 
 resource "aws_customer_gateway" "azure" {
@@ -15,7 +15,7 @@ resource "aws_customer_gateway" "azure" {
 }
 
 resource "aws_vpn_connection" "azure" {
-  vpn_gateway_id      = module.vpc.vgw_id
+  vpn_gateway_id      = data.terraform_remote_state.networking.outputs.vgw_id
   customer_gateway_id = aws_customer_gateway.azure.id
   type                = "ipsec.1"
   static_routes_only  = true
@@ -28,38 +28,38 @@ resource "aws_vpn_connection" "azure" {
 resource "aws_vpn_connection_route" "azure" {
   
   vpn_connection_id      = aws_vpn_connection.azure.id
-  destination_cidr_block = module.vnet.vnet_address_space[0]
+  destination_cidr_block = data.terraform_remote_state.networking.outputs.vnet_address_space[0]
 }
 
 resource "aws_vpn_gateway_route_propagation" "public" {
-  route_table_id = module.vpc.public_route_table_ids[0]
-  vpn_gateway_id = module.vpc.vgw_id
+  route_table_id = data.terraform_remote_state.networking.outputs.public_route_table_ids[0]
+  vpn_gateway_id = data.terraform_remote_state.networking.outputs.vgw_id
 }
 
 resource "aws_vpn_gateway_route_propagation" "private" {
-  route_table_id = module.vpc.private_route_table_ids[0]
-  vpn_gateway_id = module.vpc.vgw_id
+  route_table_id = data.terraform_remote_state.networking.outputs.private_route_table_ids[0]
+  vpn_gateway_id = data.terraform_remote_state.networking.outputs.vgw_id
 }
 
 resource "azurerm_subnet" "gateway" {
   # azure requires this to be named 'GatewaySubnet'
   name                 = "GatewaySubnet"
-  resource_group_name  = azurerm_resource_group.instruqt.name
-  virtual_network_name = module.vnet.vnet_name
+  resource_group_name  = data.terraform_remote_state.networking.outputs.resource_group_name
+  virtual_network_name = data.terraform_remote_state.networking.outputs.vnet_name
   address_prefixes       = ["10.2.3.0/24"]
 }
 
 resource "azurerm_public_ip" "gateway" {
   name                = "aws-vpn-gateway_public_ip"
-  resource_group_name = azurerm_resource_group.instruqt.name
-  location            = azurerm_resource_group.instruqt.location
+  resource_group_name = data.terraform_remote_state.networking.outputs.resource_group_name
+  location            = data.terraform_remote_state.networking.outputs.location
   allocation_method   = "Dynamic"
 }
 
 resource "azurerm_virtual_network_gateway" "aws" {
   name                = "aws-vpn-gateway"
-  resource_group_name = azurerm_resource_group.instruqt.name
-  location            = azurerm_resource_group.instruqt.location
+  resource_group_name = data.terraform_remote_state.networking.outputs.resource_group_name
+  location            = data.terraform_remote_state.networking.outputs.location
 
   type     = "Vpn"
   vpn_type = "RouteBased"
@@ -76,17 +76,17 @@ resource "azurerm_virtual_network_gateway" "aws" {
 
 resource "azurerm_local_network_gateway" "aws1" {
   name                = "aws-gateway-1"
-  resource_group_name = azurerm_resource_group.instruqt.name
-  location            = azurerm_resource_group.instruqt.location
+  resource_group_name = data.terraform_remote_state.networking.outputs.resource_group_name
+  location            = data.terraform_remote_state.networking.outputs.location
 
   gateway_address = aws_vpn_connection.azure.tunnel1_address
-  address_space   = [module.vpc.vpc_cidr_block]
+  address_space   = [data.terraform_remote_state.networking.outputs.vpc_cidr_block]
 }
 
 resource "azurerm_virtual_network_gateway_connection" "aws1" {
   name                = "aws-connection-1"
-  resource_group_name = azurerm_resource_group.instruqt.name
-  location            = azurerm_resource_group.instruqt.location
+  resource_group_name = data.terraform_remote_state.networking.outputs.resource_group_name
+  location            = data.terraform_remote_state.networking.outputs.location
 
   type                       = "IPsec"
   virtual_network_gateway_id = azurerm_virtual_network_gateway.aws.id

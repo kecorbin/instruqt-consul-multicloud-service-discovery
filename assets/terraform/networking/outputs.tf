@@ -10,6 +10,10 @@ output "public_route_table_ids" {
   value = module.vpc.public_route_table_ids
 }
 
+output "vpc_cidr_block" {
+  value = module.vpc.vpc_cidr_block
+}
+
 output "private_subnets" {
   value = module.vpc.private_subnets
 }
@@ -17,6 +21,11 @@ output "private_subnets" {
 output "public_subnets" {
   value = module.vpc.public_subnets
 }
+
+output "vgw_id" {
+  value = module.vpc.vgw_id
+}
+
 
 output "resource_group_name" {
   value = azurerm_resource_group.instruqt.name
@@ -30,6 +39,17 @@ output "vnet" {
   value = module.vnet.vnet_id
 }
 
+output "vnet_address_space" {
+  value = module.vnet.vnet_address_space
+}
+
+output "vnet_name" {
+  value = module.vnet.vnet_name
+}
+
+output "location" {
+  value = azurerm_resource_group.instruqt.location
+}
 output "vnet_subnets" {
   value = module.vnet.vnet_subnets
 }
