@@ -31,11 +31,10 @@ resource "aws_security_group" "consul_lb" {
   }
 }
 
-resource "aws_security_group" "consul_eks" {
-  for_each = var.network_segments
-
-  name        = "consul-eks-${each.key}"
-  description = "Allow gossip traffic"
+resource "aws_security_group" "consul_servers" {
+  
+  name        = "consul-serers"
+  description = "Allow Consul traffic"
   vpc_id      = data.terraform_remote_state.vpc.outputs.vpc
 
   ingress {
@@ -52,20 +51,6 @@ resource "aws_security_group" "consul_eks" {
     cidr_blocks = ["10.1.0.0/16"]
   }
 
-  ingress {
-    from_port   = each.value
-    to_port     = each.value
-    protocol    = "tcp"
-    cidr_blocks = ["10.1.0.0/16"]
-  }
-
-  ingress {
-    from_port   = each.value
-    to_port     = each.value
-    protocol    = "udp"
-    cidr_blocks = ["10.1.0.0/16"]
-  }
-
   egress {
     from_port   = 8300
     to_port     = 8300
@@ -79,19 +64,4 @@ resource "aws_security_group" "consul_eks" {
     protocol    = "udp"
     cidr_blocks = ["10.1.0.0/16"]
   }
-
-  egress {
-    from_port   = each.value
-    to_port     = each.value
-    protocol    = "tcp"
-    cidr_blocks = ["10.1.0.0/16"]
-  }
-
-  egress {
-    from_port   = each.value
-    to_port     = each.value
-    protocol    = "udp"
-    cidr_blocks = ["10.1.0.0/16"]
-  }
-
 }
