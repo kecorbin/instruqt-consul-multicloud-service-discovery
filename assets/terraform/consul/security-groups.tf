@@ -127,7 +127,8 @@ resource "aws_security_group" "consul_servers" {
     to_port     = 8302
     protocol    = "tcp"
     cidr_blocks = ["10.2.0.0/16"]
-
+  }
+  
   egress {
     from_port   = 8302
     to_port     = 8302
