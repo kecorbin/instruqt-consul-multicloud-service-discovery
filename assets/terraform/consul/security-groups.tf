@@ -36,7 +36,7 @@ resource "aws_security_group" "consul_servers" {
   name        = "consul-servers"
   description = "Allow Consul traffic"
   vpc_id      = data.terraform_remote_state.vpc.outputs.vpc
-
+  // lan gossip
   ingress {
     from_port   = 8300
     to_port     = 8300
@@ -92,4 +92,47 @@ resource "aws_security_group" "consul_servers" {
     protocol    = "udp"
     cidr_blocks = ["10.1.0.0/16"]
   }
+
+  // wan gossip
+  ingress {
+    from_port   = 8300
+    to_port     = 8300
+    protocol    = "tcp"
+    cidr_blocks = ["10.2.0.0/16"]
+  }
+
+  egress {
+    from_port   = 8300
+    to_port     = 8300
+    protocol    = "tcp"
+    cidr_blocks = ["10.2.0.0/16"]
+  }
+
+  ingress {
+    from_port   = 8302
+    to_port     = 8302
+    protocol    = "tcp"
+    cidr_blocks = ["10.2.0.0/16"]
+  }
+
+  ingress {
+    from_port   = 8302
+    to_port     = 8302
+    protocol    = "udp"
+    cidr_blocks = ["10.2.0.0/16"]
+  }
+
+  egress {
+    from_port   = 8302
+    to_port     = 8302
+    protocol    = "tcp"
+    cidr_blocks = ["10.2.0.0/16"]
+
+  egress {
+    from_port   = 8302
+    to_port     = 8302
+    protocol    = "udp"
+    cidr_blocks = ["10.2.0.0/16"]
+  }
+
 }

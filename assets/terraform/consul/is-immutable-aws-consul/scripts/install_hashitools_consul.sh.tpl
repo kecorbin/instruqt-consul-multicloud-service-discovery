@@ -7,6 +7,8 @@ LOCAL_IPV4=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
 
 cat << EOF > /etc/consul.d/consul.hcl
 datacenter          = "${datacenter}"
+primary_datacenter  = "${datacenter}"
+
 server              = true
 bootstrap_expect    = ${bootstrap_expect}
 data_dir            = "/opt/consul/data"

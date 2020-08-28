@@ -40,7 +40,7 @@ resource "tls_cert_request" "consul_server" {
   private_key_pem = tls_private_key.consul_server.private_key_pem
 
   subject {
-    common_name = "server.${var.consul_datacenter}.consul"
+    common_name = "*"
   }
 
   dns_names    = var.dns_names

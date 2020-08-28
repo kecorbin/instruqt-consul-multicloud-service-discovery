@@ -18,9 +18,15 @@ module "vpc" {
   single_nat_gateway = true
   enable_vpn_gateway = true
 
-  private_subnet_tags = { "Tier" : "private" }
-  public_subnet_tags  = { "Tier" : "public" }
+  public_subnet_tags = {
+    "kubernetes.io/cluster/frontend" = "shared"
+    "kubernetes.io/role/elb"                      = "1"
+  }
 
+  private_subnet_tags = {
+    "kubernetes.io/cluster/frontend" = "shared"
+    "kubernetes.io/role/internal-elb"             = "1"
+  }
 }
 
 data "aws_ami" "ubuntu" {
