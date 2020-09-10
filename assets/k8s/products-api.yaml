@@ -6,6 +6,7 @@ kind: Service
 metadata:
   name: products-api-service
 spec:
+  type: LoadBalancer
   selector:
     app: products-api
   ports:
