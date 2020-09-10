@@ -6,7 +6,7 @@ metadata:
   labels:
     app: public-api
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 8080
       targetPort: 8080
@@ -38,6 +38,8 @@ spec:
         service: public-api
         app: public-api
       annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9102"
         consul.hashicorp.com/connect-inject: "true"
         consul.hashicorp.com/connect-service-upstreams: "products-api:9090"
     spec:
