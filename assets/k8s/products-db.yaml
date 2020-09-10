@@ -6,7 +6,7 @@ metadata:
   labels:
     app: postgres
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 5432
       targetPort: 5432
@@ -38,6 +38,8 @@ spec:
         service: postgres
         app: postgres
       annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9102"
         consul.hashicorp.com/connect-inject: "true"
     spec:
       serviceAccountName: postgres
