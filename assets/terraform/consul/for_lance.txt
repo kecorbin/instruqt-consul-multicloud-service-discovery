@@ -1,0 +1,93 @@
+# cat /consul/tls/ca/tls.crt
+-----BEGIN CERTIFICATE-----
+MIICkjCCAjigAwIBAgIQdex53ZqfsCQAtDGmR7eTUzAKBggqhkjOPQQDAjCBqDEL
+MAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1TYW4gRnJhbmNpc2Nv
+MRowGAYDVQQJExExMDEgU2Vjb25kIFN0cmVldDEOMAwGA1UEERMFOTQxMDUxFzAV
+BgNVBAoTDkhhc2hpQ29ycCBJbmMuMS8wLQYDVQQDEyZIYXNoaUNvcnAgRXhhbXBs
+ZSBDQSBpbnN0cnVxdC0xZjk3MzU3ZTAeFw0yMDA5MTcyMDQ2MjNaFw0yNTA5MTYy
+MDQ2MjNaMIGoMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDVNh
+biBGcmFuY2lzY28xGjAYBgNVBAkTETEwMSBTZWNvbmQgU3RyZWV0MQ4wDAYDVQQR
+EwU5NDEwNTEXMBUGA1UEChMOSGFzaGlDb3JwIEluYy4xLzAtBgNVBAMTJkhhc2hp
+Q29ycCBFeGFtcGxlIENBIGluc3RydXF0LTFmOTczNTdlMFkwEwYHKoZIzj0CAQYI
+KoZIzj0DAQcDQgAEqRnoUCUwDLWPXIJHM2ukDVxWFsRgxOG1Lgjz6Ket0w5OENq1
+643Vflb9n5IQ9ZEUldQVa49bxPJeELdi8vv1SqNCMEAwDgYDVR0PAQH/BAQDAgGG
+MA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFL0cKQWPkxAOZCMDqhrRqv3NTjTA
+MAoGCCqGSM49BAMCA0gAMEUCIQCOiKbIh7k4OHy95TCkie38mWt2WOi1cINMRvTh
+X9MZUAIgWxyaNjApljAhQVytv5eMLpllh9NrssqHDvW/oA9DO/0=
+-----END CERTIFICATE-----
+
+/ # cat /consul/tls/server/tls.crt
+-----BEGIN CERTIFICATE-----
+MIIDUDCCAvagAwIBAgIQSjL2c5KGCO3PyVj/pHug9zAKBggqhkjOPQQDAjCBuTEL
+MAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1TYW4gRnJhbmNpc2Nv
+MRowGAYDVQQJExExMDEgU2Vjb25kIFN0cmVldDEOMAwGA1UEERMFOTQxMDUxFzAV
+BgNVBAoTDkhhc2hpQ29ycCBJbmMuMUAwPgYDVQQDEzdDb25zdWwgQWdlbnQgQ0Eg
+MTE3OTMxNTI1OTU4NjQ3NTM3OTI5MzkzODUwMTg2MDQwODMxNDEyMB4XDTIwMDkx
+NzIxMDAxMVoXDTIyMDkxNzIxMDAxMVowJjEkMCIGA1UEAxMbc2VydmVyLmF6dXJl
+LWNlbnRyYWwuY29uc3VsMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEq96fJHLw
+uFNi/gjJSVTByMnE2wv3tKgIbKc0G33YcvnburUz62hNYhk/mGdlRzuLoQ9v4lER
+DjZ/PAeJzhiIxKOCAXAwggFsMA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggr
+BgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADApBgNVHQ4EIgQgaiSWpzKr
+v8KOcF9XQzeN79mdZO6MJPdhjpYl+zV9ip4wKwYDVR0jBCQwIoAgRDubXnuls0a7
+8oEZwTzM/Z1riunMjPfFVrVaLjtaU14wgdQGA1UdEQSBzDCByYIXaGFzaGljb3Jw
+LWNvbnN1bC1zZXJ2ZXKCGSouaGFzaGljb3JwLWNvbnN1bC1zZXJ2ZXKCICouaGFz
+aGljb3JwLWNvbnN1bC1zZXJ2ZXIuY29uc3VsgiQqLmhhc2hpY29ycC1jb25zdWwt
+c2VydmVyLmNvbnN1bC5zdmOCHSouc2VydmVyLmF6dXJlLWNlbnRyYWwuY29uc3Vs
+ghtzZXJ2ZXIuYXp1cmUtY2VudHJhbC5jb25zdWyCCWxvY2FsaG9zdIcEfwAAATAK
+BggqhkjOPQQDAgNIADBFAiAp8R09gtOv5vUxeGQd6XzNEM8Vm+70SJr5EXxZGSX8
+3AIhAJgmRT/iff/+t0uICpG6ZJdPAv4gVzdTqp39ePknO/bX
+-----END CERTIFICATE-----
+/ # cat /consul/tls/server/tls.key
+-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIEgHIK06zzN8rtawyH7VGRXEYmL5iR7pjnsAhi4TSddNoAoGCCqGSM49
+AwEHoUQDQgAEq96fJHLwuFNi/gjJSVTByMnE2wv3tKgIbKc0G33YcvnburUz62hN
+Yhk/mGdlRzuLoQ9v4lERDjZ/PAeJzhiIxA==
+-----END EC PRIVATE KEY-----
+
+
+
+global:
+  image: 'hashicorp/consul-enterprise:1.7.2-ent'
+  domain: consul
+  datacenter: azure-central
+  tls:
+    enabled: true
+    enableAutoEncrypt: true
+    caCert:
+      secretName: hashicorp-consul-ca-cert
+      secretKey: tls.crt
+  acls:
+    manageSystemACLs: false
+  gossipEncryption:
+    secretName: hashicorp-consul-gossip-key
+    secretKey: key
+  enableConsulNamespaces: true
+server:
+  enabled: true
+  replicas: 1
+  bootstrapExpect: 1
+  extraConfig: |
+    { "primary_datacenter": "us-east-1" }
+externalServers:
+  enabled: false
+client:
+  enabled: true
+  #join: ["${lb}"]
+  extraConfig: |
+    { "primary_datacenter": "us-east-1" }
+  extraVolumes:
+  - type: 'secret'
+    name: 'hashicorp-consul-acl-config'
+    load: true
+connectInject:
+  enabled: true
+  default: false
+  k8sAllowNamespaces: ["default"]
+  consulNamespaces:
+    consulDestinationNamespace: "default"
+  aclInjectToken:
+    secretName: hashicorp-consul-connect-inject-acl-token
+    secretKey: token
+  overrideAuthMethodName: hashicorp-consul-k8s-auth-method
+EOF
+
